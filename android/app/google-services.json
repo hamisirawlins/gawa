@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "878910014917",
+    "project_id": "gawa-2728d",
+    "storage_bucket": "gawa-2728d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:878910014917:android:d63e64528a5bbf73eaf7ac",
+        "android_client_info": {
+          "package_name": "com.example.gawa"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCDYV_d9QLXX6iALQAeB96CkGjG4swMlAY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
