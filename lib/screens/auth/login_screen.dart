@@ -9,15 +9,16 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:gawa/widgets/auth/auth_input_field.dart';
 
 class LoginScreen extends StatefulWidget {
-  LoginScreen({super.key});
+  final Function()? toggleScreen;
+  LoginScreen({super.key, this.toggleScreen});
 
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final emailController = TextEditingController();
 
+  final emailController = TextEditingController();
   final passwordController = TextEditingController();
 
   void signIn() async {
@@ -176,7 +177,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 children: [
                   const Text("Don't have an account? "),
                   GestureDetector(
-                    onTap: register,
+                    onTap: widget.toggleScreen,
                     child: const Text(
                       "Register",
                       style: TextStyle(fontWeight: FontWeight.bold),

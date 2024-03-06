@@ -1,7 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:gawa/firebase_options.dart';
-import 'package:gawa/screens/auth/auth_screen.dart';
+import 'package:gawa/screens/auth/auth_state.dart';
 import './screens/collections/personal_collections_screen.dart';
 import './screens/collections/group_collections_screen.dart';
 import './screens/profile/profile_screen.dart';
