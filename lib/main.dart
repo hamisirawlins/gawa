@@ -1,21 +1,32 @@
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:gawa/firebase_options.dart';
-import 'package:gawa/screens/auth/auth_state.dart';
-import './screens/collections/personal_collections_screen.dart';
-import './screens/collections/group_collections_screen.dart';
-import './screens/profile/profile_screen.dart';
-import './screens/auth/forgot_password_screen.dart';
-import './screens/home/home_screen.dart';
-import './screens/auth/register_screen.dart';
-import './screens/auth/login_screen.dart';
-import './routes/app_routes.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:gawa/core/secrets/app_secrets.dart';
+import 'package:gawa/modules/auth/data/datasources/auth_remote_data.dart';
+import 'package:gawa/modules/auth/data/repository/auth_repo_impl.dart';
+import 'package:gawa/modules/auth/presentiation/pages/auth_view.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+import 'modules/auth/domain/usecases/user_sign_up.dart';
+import 'modules/auth/presentiation/bloc/auth_bloc.dart';
 import 'utils/get_screen_size.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(const MyApp());
+  final supabase = await Supabase.initialize(
+    url: AppSecrets.supabaseUrl,
+    anonKey: AppSecrets.supabaseAnonKey,
+    debug: true,
+  );
+  runApp(MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (_) => AuthBloc(
+          userSignUp: UserSignUp(AuthRepoImpl(
+              AuthRemoteDataImpl(supabaseClient: supabase.client))),
+        ),
+      ),
+    ],
+    child: const MyApp(),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -24,18 +35,11 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
-    return MaterialApp(
+    return const MaterialApp(
       title: 'Gawa',
       debugShowCheckedModeBanner: false,
-      home: const AuthScreen(),
-      routes: {
-        AppRoutes.register: (context) => RegisterScreen(),
-        AppRoutes.forgotPassword: (context) => ForgotPasswordScreen(),
-        AppRoutes.home: (context) => HomeScreen(),
-        AppRoutes.profile: (context) => ProfileScreen(),
-        AppRoutes.groupCollections: (context) => GroupCollectionsScreen(),
-        AppRoutes.personalCollections: (context) => PersonalCollectionsScreen(),
-      },
+      home: LoginAndRegisterView(),
+      routes: {},
     );
   }
 }

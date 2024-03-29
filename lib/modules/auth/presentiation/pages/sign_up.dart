@@ -1,12 +1,12 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gawa/constants.dart';
-import 'package:gawa/utils/get_screen_size.dart';
-import 'package:gawa/widgets/auth/auth_action_button.dart';
-import 'package:gawa/widgets/general/show_snackbar.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:gawa/widgets/auth/auth_input_field.dart';
+import '../../../../constants.dart';
+import '../../../../utils/get_screen_size.dart';
+import '../bloc/auth_bloc.dart';
+import '../widgets/auth_action_button.dart';
+import '../widgets/auth_input_field.dart';
 
 class RegisterScreen extends StatefulWidget {
   final Function()? toggleScreen;
@@ -18,8 +18,14 @@ class RegisterScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<RegisterScreen> {
   final emailController = TextEditingController();
-
   final passwordController = TextEditingController();
+
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
 
   void signUp() async {
     showDialog(
@@ -31,18 +37,10 @@ class _LoginScreenState extends State<RegisterScreen> {
             ),
           );
         });
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+    context.read<AuthBloc>().add(AuthSignUp(
           email: emailController.text.trim(),
-          password: passwordController.text.trim());
-    } on FirebaseAuthException catch (e) {
-      if (mounted) {
-        showSnackBar(context, e.message!);
-      }
-    }
-    if (mounted) {
-      Navigator.pop(context);
-    }
+          password: passwordController.text.trim(),
+        ));
   }
 
   void googleSignIn() {

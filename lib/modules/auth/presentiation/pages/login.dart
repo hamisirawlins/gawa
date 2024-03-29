@@ -1,12 +1,10 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:gawa/constants.dart';
-import 'package:gawa/utils/get_screen_size.dart';
-import 'package:gawa/widgets/auth/auth_action_button.dart';
-import 'package:gawa/widgets/general/show_snackbar.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'package:gawa/widgets/auth/auth_input_field.dart';
+import '../../../../constants.dart';
+import '../../../../utils/get_screen_size.dart';
+import '../widgets/auth_action_button.dart';
+import '../widgets/auth_input_field.dart';
 
 class LoginScreen extends StatefulWidget {
   final Function()? toggleScreen;
@@ -31,18 +29,6 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           );
         });
-    try {
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-          email: emailController.text.trim(),
-          password: passwordController.text.trim());
-    } on FirebaseAuthException catch (e) {
-      if (mounted) {
-        showSnackBar(context, e.message!);
-      }
-    }
-    if (mounted) {
-      Navigator.pop(context);
-    }
   }
 
   void register() {
