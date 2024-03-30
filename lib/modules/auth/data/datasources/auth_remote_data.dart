@@ -1,28 +1,40 @@
 import 'package:gawa/core/error/exceptions.dart';
+import 'package:gawa/modules/auth/data/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class AuthRemoteData {
-  Future<String> loginWithEmail(
+  Session? get currentUserSession;
+  Future<UserModel> loginWithEmail(
       {required String email, required String password});
-  Future<String> registerWithEmail(
+  Future<UserModel> registerWithEmail(
       {required String email, required String password});
-  Future<String> logout();
-  Future<String> getCurrentUser();
+  Future<UserModel?> getCurrentUserData();
 }
 
 class AuthRemoteDataImpl implements AuthRemoteData {
   final SupabaseClient supabaseClient;
-  AuthRemoteDataImpl({required this.supabaseClient});
+  AuthRemoteDataImpl(this.supabaseClient);
 
   @override
-  Future<String> loginWithEmail(
+  Session? get currentUserSession => supabaseClient.auth.currentSession;
+
+  @override
+  Future<UserModel> loginWithEmail(
       {required String email, required String password}) async {
-    await Future.delayed(Duration(seconds: 1));
-    return 'token';
+    try {
+      final response = await supabaseClient.auth
+          .signInWithPassword(email: email, password: password);
+      if (response.user == null) {
+        throw const ServerException('User is null');
+      }
+      return UserModel.fromJson(response.user!.toJson());
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
   }
 
   @override
-  Future<String> registerWithEmail(
+  Future<UserModel> registerWithEmail(
       {required String email, required String password}) async {
     try {
       final response =
@@ -30,7 +42,7 @@ class AuthRemoteDataImpl implements AuthRemoteData {
       if (response.user == null) {
         throw const ServerException('User is null');
       }
-      return response.user!.id;
+      return UserModel.fromJson(response.user!.toJson());
     } catch (e) {
       throw ServerException(e.toString());
     }
@@ -46,5 +58,21 @@ class AuthRemoteDataImpl implements AuthRemoteData {
   Future<String> getCurrentUser() async {
     await Future.delayed(Duration(seconds: 1));
     return 'token';
+  }
+
+  @override
+  Future<UserModel?> getCurrentUserData() async {
+    try {
+      if (currentUserSession != null) {
+        final userData = await supabaseClient
+            .from('profiles')
+            .select()
+            .eq('id', currentUserSession!.user.id);
+        return UserModel.fromJson(userData.first);
+      }
+      return null;
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
   }
 }

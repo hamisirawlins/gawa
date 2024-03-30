@@ -1,13 +1,14 @@
 import 'package:fpdart/fpdart.dart';
 import 'package:gawa/core/error/errors.dart';
 import 'package:gawa/core/usecase/usecase.dart';
+import 'package:gawa/core/common/entities/user.dart';
 import 'package:gawa/modules/auth/domain/repository/auth_repo.dart';
 
-class UserSignUp implements UseCase<String, UserSignUpParams> {
+class UserSignUp implements UseCase<User, UserSignUpParams> {
   final AuthRepository authRepository;
   const UserSignUp(this.authRepository);
   @override
-  Future<Either<Failure, String>> call(UserSignUpParams params) async {
+  Future<Either<Failure, User>> call(UserSignUpParams params) async {
     return await authRepository.registerWithEmail(
         email: params.email, password: params.password);
   }
