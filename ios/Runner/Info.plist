@@ -45,5 +45,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Gallery photos needed to populate collection entity creation and editing with cover images</string>
 </dict>
 </plist>

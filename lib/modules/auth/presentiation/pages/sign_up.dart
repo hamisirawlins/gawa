@@ -3,9 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:gawa/core/common/widgets/loader.dart';
 import 'package:gawa/core/common/widgets/show_snackbar.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../../../constants.dart';
-import '../../../../utils/get_screen_size.dart';
+import '../../../../core/utils/get_screen_size.dart';
 import '../bloc/auth_bloc.dart';
 import '../widgets/auth_action_button.dart';
 import '../widgets/auth_input_field.dart';
@@ -43,7 +41,6 @@ class _LoginScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: kPrimaryColor,
       body: SafeArea(
         child: SingleChildScrollView(
           child: BlocConsumer<AuthBloc, AuthState>(

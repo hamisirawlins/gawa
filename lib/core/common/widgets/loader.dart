@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:gawa/utils/get_screen_size.dart';
+import 'package:gawa/core/utils/get_screen_size.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class Loader extends StatelessWidget {
@@ -8,9 +8,19 @@ class Loader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: LoadingAnimationWidget.staggeredDotsWave(
-        size: SizeConfig.screenHeight * 0.05,
-        color: Colors.blueAccent,
+      child: Column(
+        children: [
+          SizedBox(
+            height: SizeConfig.screenHeight * 0.4,
+          ),
+          LoadingAnimationWidget.staggeredDotsWave(
+            size: SizeConfig.screenHeight * 0.05,
+            color: Colors.blue[300]!,
+          ),
+          SizedBox(
+            height: SizeConfig.screenHeight * 0.4,
+          )
+        ],
       ),
     );
   }

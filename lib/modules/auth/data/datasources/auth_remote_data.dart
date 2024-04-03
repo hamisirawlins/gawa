@@ -2,7 +2,7 @@ import 'package:gawa/core/error/exceptions.dart';
 import 'package:gawa/modules/auth/data/models/user_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
-abstract interface class AuthRemoteData {
+abstract interface class AuthRemoteDataSource {
   Session? get currentUserSession;
   Future<UserModel> loginWithEmail(
       {required String email, required String password});
@@ -11,7 +11,7 @@ abstract interface class AuthRemoteData {
   Future<UserModel?> getCurrentUserData();
 }
 
-class AuthRemoteDataImpl implements AuthRemoteData {
+class AuthRemoteDataImpl implements AuthRemoteDataSource {
   final SupabaseClient supabaseClient;
   AuthRemoteDataImpl(this.supabaseClient);
 
