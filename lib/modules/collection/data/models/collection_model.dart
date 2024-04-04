@@ -57,7 +57,7 @@ class CollectionModel extends Collection {
       amount: amount ?? this.amount,
       imageUrl: imageUrl ?? this.imageUrl,
       paymentMethods: paymentMethods ?? this.paymentMethods,
-      updatedAt: updatedAt ?? this.updatedAt,
+      updatedAt: updatedAt ?? this.updatedAt
     );
   }
 }

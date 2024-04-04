@@ -8,6 +8,7 @@ abstract interface class CollectionRemoteDataSource {
   Future<CollectionModel> uploadCollection(CollectionModel collectionModel);
   Future<String> uploadCollectionImage(
       {required File image, required CollectionModel collection});
+  Future<List<CollectionModel>> getCollections();
 }
 
 class CollectionRemoteDataSourceImpl implements CollectionRemoteDataSource {
@@ -38,6 +39,17 @@ class CollectionRemoteDataSourceImpl implements CollectionRemoteDataSource {
       return supabaseClient.storage
           .from('collection_images')
           .getPublicUrl(collection.id);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<List<CollectionModel>> getCollections() async {
+    try {
+      final collections =
+          await supabaseClient.from('collections').select('*, profiles(name)');
+      return collections.map((e) => CollectionModel.fromJSON(e)).toList();
     } catch (e) {
       throw ServerException(e.toString());
     }

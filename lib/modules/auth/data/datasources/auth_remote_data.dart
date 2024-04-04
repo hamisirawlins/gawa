@@ -49,18 +49,6 @@ class AuthRemoteDataImpl implements AuthRemoteDataSource {
   }
 
   @override
-  Future<String> logout() async {
-    await Future.delayed(Duration(seconds: 1));
-    return 'token';
-  }
-
-  @override
-  Future<String> getCurrentUser() async {
-    await Future.delayed(Duration(seconds: 1));
-    return 'token';
-  }
-
-  @override
   Future<UserModel?> getCurrentUserData() async {
     try {
       if (currentUserSession != null) {

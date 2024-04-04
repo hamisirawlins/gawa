@@ -8,13 +8,14 @@ class Collection {
   final List<String> paymentMethods;
   final DateTime updatedAt;
 
-  Collection(
-      {required this.id,
-      required this.userId,
-      required this.name,
-      required this.description,
-      required this.amount,
-      required this.imageUrl,
-      required this.paymentMethods,
-      required this.updatedAt});
+  Collection({
+    required this.id,
+    required this.userId,
+    required this.name,
+    required this.description,
+    required this.amount,
+    required this.imageUrl,
+    required this.paymentMethods,
+    required this.updatedAt
+  });
 }
